@@ -1,0 +1,60 @@
+<div class="api-container hide api-panel" id="get_enphase_energy_lifetime">
+  <h4>Get EnPhase Energy Lifetime API</h4>
+  <div class="request-params pull-left span3">  
+    <h6>Params</h6>api-container
+    <%= label_tag :system_id, "System ID" %>
+    <%= text_field_tag :system_id, params[:system_id], :class => "span2", :id => "system_id", :required => true, :placeholder => "67", :value => "67" %>
+    <br><br>
+    
+    <%= submit_tag "Submit", :class => "btn btn-primary submit-button", "onClick" => 'callEnergyApi()', "data-loading-text" => "Please wait..." %>
+    <%= button_tag "Clear", :class => "btn btn-primary", "onClick" => 'resetEnergyVals()' %>
+    <br><br><br>
+  </div>
+    
+  <div class="response span7">
+    <h6>Response</h6>
+  
+    <%= label_tag :url, "URL" %>
+    <%= text_area_tag :url, params[:response], :class => "span7", :id => "response-method", "rows" => 3 %>
+
+    <%= label_tag :status, "Status" %>
+    <%= text_field_tag :response, params[:response], :class => "span2", :id => "response-status" %>
+    
+    <%= label_tag :body, "Body" %>
+    <%= text_area_tag :response, params[:response], :class => "span7", :id => "response-body", "rows" => 6 %>
+  </div>
+</div>  
+
+<script type='text/javascript'>
+
+  function callEnergyApi(){
+    var system_id = $("#get_enphase_energy_lifetime #system_id").val();
+
+    if($.isNumeric($.trim(system_id)) == false) {
+      alert('System ID can not be left blank');
+      return;
+    }
+
+    $(".submit-button").prop("disabled", true);
+    
+    jQuery.ajax({
+      url: "/demo/get_enphase_energy_lifetime",
+      type: "POST",
+      datatype: 'json',
+      data: { "system_id": system_id },
+      success: function(data){
+        console.log(data);
+        $("#get_enphase_energy_lifetime #response-status").val(data.status);
+        $("#get_enphase_energy_lifetime #response-method").val(data["url"]["scheme"] + "://" + data["url"]["host"] + data["url"]["path"] + "?" + data["url"]["query"]);
+        $("#get_enphase_energy_lifetime #response-body").val(data.body);
+        $(".submit-button").prop("disabled", false);
+      }
+    });  
+  }
+
+  function resetEnergyVals(){
+    $('#get_enphase_energy_lifetime input:text').val(''); 
+    $('#get_enphase_energy_lifetime textarea').val(''); 
+  }
+
+</script>

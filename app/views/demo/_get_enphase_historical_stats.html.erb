@@ -1,0 +1,73 @@
+<div class="api-container hide api-panel" id="get_enphase_historical_stats">
+  <h4>Get EnPhase Historical stats</h4>
+  <div class="request-params pull-left span3">  
+    <h6>Params</h6>
+    <%= label_tag :system_id, "System ID" %>
+    <%= text_field_tag :system_id, params[:system_id], :class => "span2", :id => "system_id", :required => true, :placeholder => "67", :value => "67" %>
+    <br>
+    <%= label_tag :start_at, "Start time in seconds" %>
+    <%= text_field_tag :start_at, params[:start_at], :class => "span2", :id => "start_at", :required => true, :placeholder => "1411822918", :value => "1411822918" %>
+
+    <%= label_tag :end_at, "End time in seconds" %>
+    <%= text_field_tag :end_at, params[:end_at], :class => "span2", :id => "end_at", :required => true, :placeholder => "1414414914", :value => "1414414914" %><br><br>
+    
+    <%= submit_tag "Submit", :class => "btn btn-primary submit-button", "onClick" => 'callHistoricStatsApi()', "data-loading-text" => "Please wait..." %>
+    <%= button_tag "Clear", :class => "btn btn-primary", "onClick" => 'resetHStatVals()' %>
+    <br><br><br>
+  </div>
+    
+  <div class="response span7">
+    <h6>Response</h6>
+  
+    <%= label_tag :url, "URL" %>
+    <%= text_area_tag :url, params[:response], :class => "span7", :id => "response-method", "rows" => 3 %>
+
+    <%= label_tag :status, "Status" %>
+    <%= text_field_tag :response, params[:response], :class => "span2", :id => "response-status" %>
+    
+    <%= label_tag :body, "Body" %>
+    <%= text_area_tag :response, params[:response], :class => "span7", :id => "response-body", "rows" => 6 %>
+  </div>
+</div>  
+
+<script type='text/javascript'>
+
+  function callHistoricStatsApi(){
+    var system_id = $("#get_enphase_historical_stats #system_id").val();
+    
+    if($.isNumeric($.trim(system_id)) == false) {
+      alert('System ID can not be left blank');
+      return;
+    }
+
+    var start_at = $("#get_enphase_historical_stats #start_at").val();
+    var end_at = $("#get_enphase_historical_stats #end_at").val();
+
+    if($.trim(start_at) == '' || $.trim(end_at) == ''){
+      alert('Start at/End at fields can not be left blank');
+      return;
+    }
+    
+    $(".submit-button").prop("disabled", true);
+    
+    jQuery.ajax({
+      url: "/demo/get_enphase_historical_stats",
+      type: "POST",
+      datatype: 'json',
+      data: { "system_id": system_id, "start_at": start_at, "end_at": end_at },
+      success: function(data){
+        console.log(data);
+        $("#get_enphase_historical_stats #response-status").val(data.status);
+        $("#get_enphase_historical_stats #response-method").val(data["url"]["scheme"] + "://" + data["url"]["host"] + data["url"]["path"] + "?" + data["url"]["query"]);
+        $("#get_enphase_historical_stats #response-body").val(data.body);
+        $(".submit-button").prop("disabled", false);
+      }
+    });  
+  }
+
+  function resetHStatVals(){
+    $('#get_enphase_historical_stats input:text').val(''); 
+    $('#get_enphase_historical_stats textarea').val(''); 
+  }
+
+</script>

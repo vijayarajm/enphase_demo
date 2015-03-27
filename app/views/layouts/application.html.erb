@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EnphaseDemoApp</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <header>
+    <div class="container textcenter logo-large">
+      <h4>PVimpact EnPhase API Demo</h4>
+    </div>
+  </header>
+
+  <%= yield %>
+
+</body>
+</html>

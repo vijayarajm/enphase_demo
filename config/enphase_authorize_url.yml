@@ -1,0 +1,3 @@
+development: "https://enlighten.enphaseenergy.com/app_user_auth/new?app_id=1409611733144&redirect=http://localhost:3003/callback/"
+test: "https://enlighten.enphaseenergy.com/app_user_auth/new?app_id=1409611733144&redirect=http://localhost:3003/callback/"
+production: "https://enlighten.enphaseenergy.com/app_user_auth/new?app_id=1409611733144&redirect=http://localhost:3003/callback/"

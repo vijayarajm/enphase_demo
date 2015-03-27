@@ -1,0 +1,54 @@
+
+<% 
+api_method_options = [
+  ["get_enphase_feed", :get_enphase_feed],
+  ["get_enphase_summary", :get_enphase_summary],
+  ["get_enphase_today_stats", :get_enphase_today_stats],
+  ['get_enphase_last_7_day_stats', :get_enphase_last_7_day_stats],
+  ['get_enphase_historical_stats', :get_enphase_historical_stats],
+  ['get_enphase_energy_lifetime', :get_enphase_energy_lifetime],
+  ['get_enphase_last_7_day_summaries', :get_enphase_last_7_day_summaries]
+]
+%>
+
+<div class="container">
+
+  <% if @user_id.blank? %>
+    <div class="alert">Please authorize before you proceed!</div>
+  <% end %>
+
+  <div class="mtop span3 pull-right">
+    <% if @user_id.blank? %>
+      <%= form_tag({action: :authorize}, method: :get) do %>
+        <%= submit_tag "Authorize", :class => "btn btn-primary span2" %>
+      <% end %>
+    <% else %>
+      <%= form_tag({action: :unauthorize}, method: :get) do %>
+        <%= submit_tag "Unauthorize", :class => "btn btn-primary span2" %>
+      <% end %>
+    <% end %>  
+  </div>
+  
+  <div class="mtop span3">
+  <%= select_tag :api_method, options_for_select(api_method_options), :selected => params[:api_method], :class => "span2 select-api-method" %>      
+  </div>
+
+  <br><br><br><br>
+  <%= render 'get_enphase_feed' %>
+  <%= render 'get_enphase_summary' %>
+  <%= render 'get_enphase_today_stats' %>
+  <%= render 'get_enphase_last_7_days_stats' %>
+  <%= render 'get_enphase_historical_stats' %>
+  <%= render 'get_enphase_energy_lifetime' %>
+  <%= render 'get_enphase_last_7_day_summaries' %>
+  <br><br><br>
+</div>
+
+<script type='text/javascript'>
+  $('.select-api-method').change(function () {
+    var selectValue = $(this).val();
+    
+    $(".api-panel").addClass("hide");
+    $("#"+selectValue).removeClass("hide");
+  });
+</script>

@@ -1,0 +1,73 @@
+<div class="api-container api-panel" id="get_enphase_feed">
+  <h4>Get EnPhase Feed</h4>
+  <div class="request-params pull-left span3">  
+    <h6>Params</h6>
+    <%= label_tag :system_id, "System ID" %>
+    <%= text_field_tag :system_id, params[:system_id], :class => "span2", :id => "system_id", :required => true, :placeholder => "67", :value => "67" %>
+    <br><br>
+    
+    <%= label_tag :summary_date, "Sumary Date" %>
+    <%= text_field_tag :summary_date, params[:summary_date], :class => "span2", :id => "summary_date", :required => true, :placeholder => "%Y-%m-%d", :value => "2014-01-02" %><br><br>
+    
+    <%= submit_tag "Submit", :class => "btn btn-primary submit-button", "onClick" => 'callFeedApi()', "data-loading-text" => "Please wait..." %>
+    <%= button_tag "Clear", :class => "btn btn-primary", "onClick" => 'resetFeedVals()' %>
+    <br><br><br>
+  </div>
+    
+  <div class="response span7">
+    <h6>Response</h6>
+  
+    <%= label_tag :url, "URL" %>
+    <%= text_area_tag :url, params[:response], :class => "span7", :id => "response-method", "rows" => 3 %>
+
+    <%= label_tag :status, "Status" %>
+    <%= text_field_tag :response, params[:response], :class => "span2", :id => "response-status" %>
+    
+    <%= label_tag :body, "Body" %>
+    <%= text_area_tag :response, params[:response], :class => "span7", :id => "response-body", "rows" => 6 %>
+  </div>
+</div>  
+
+<script type='text/javascript'>
+
+  function callFeedApi(){
+    var system_id = $("#get_enphase_feed #system_id").val();
+
+    if($.isNumeric($.trim(system_id)) == false) {
+      alert('System ID can not be left blank');
+      return;
+    }
+
+    var summary_date = $("#get_enphase_feed #summary_date").val();
+    if($.trim(summary_date) == ''){
+      alert('Summary date field can not be left blank');
+      return;
+    }
+
+    $(".submit-button").prop("disabled", true);
+    
+    jQuery.ajax({
+      url: "/demo/get_enphase_feed",
+      type: "POST",
+      datatype: 'json',
+      data: { "summary_date": summary_date, "system_id": system_id },
+      success: function(data){
+        if(data.error){
+          alert('args');
+        }
+        else{
+          $("#get_enphase_feed #response-status").val(data.status);
+          $("#get_enphase_feed #response-method").val(data["url"]["scheme"] + "://" + data["url"]["host"] + data["url"]["path"] + "?" + data["url"]["query"]);
+          $("#get_enphase_feed #response-body").val(data.body);
+          $(".submit-button").prop("disabled", false);
+        }
+      }
+    });  
+  }
+
+  function resetFeedVals(){
+    $('#get_enphase_feed input:text').val(''); 
+    $('#get_enphase_feed textarea').val(''); 
+  }
+
+</script>
