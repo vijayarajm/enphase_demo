@@ -5,22 +5,22 @@
 # Author TCSASSEMBLER
 # Version 1.0
 
-# development:
-#   adapter: postgresql
-#   encoding: unicode
-#   database: enphase_demo_dev
-#   pool: 5
-#   username: vijayarajmurugesan
-#   password:
-
 development:
-  adapter: mysql2
-  encoding: utf8
-  database: gitlab1
+  adapter: postgresql
+  encoding: unicode
+  database: enphase_demo_dev
   pool: 5
-  host: 127.0.0.1
-  username: root
+  username: vijayarajmurugesan
   password:
+
+# development:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: gitlab1
+#   pool: 5
+#   host: 127.0.0.1
+#   username: root
+#   password:
   
 test:
   adapter: postgresql
@@ -35,7 +35,7 @@ production:
   encoding: unicode
   database: enphase_demo_prod
   pool: 5
-  username: vijayarajmurugesan
+  username: vijayaraj
   password:
 
   

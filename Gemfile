@@ -23,6 +23,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # gem 'libv8', '3.16.14.7'
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
@@ -38,7 +39,6 @@ gem 'jquery-rails'
 
 # Use unicorn as the app server
 gem 'unicorn'
-gem 'therubyracer',  platforms: :ruby
 
 # Deploy with Capistrano
 # gem 'capistrano'
