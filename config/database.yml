@@ -30,12 +30,21 @@ test:
   username: vijayarajmurugesan
   password:
 
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: enphase_demo_prod
+#   pool: 5
+#   username: vijayaraj
+#   password:
+
 production:
-  adapter: postgresql
-  encoding: unicode
+  adapter: mysql2
+  encoding: utf8
   database: enphase_demo_prod
   pool: 5
-  username: vijayaraj
+  host: 127.0.0.1
+  username: root
   password:
 
   
